@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andy’s Water Story</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+  <style>
+    :root {
+      --blue: #1976d2;
+      --light: #e3f2fd;
+      --white: #fff;
+      --dark: #0d47a1;
+      --text: #333;
+      --bg: #f4f9ff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 5%;
+      background: linear-gradient(to right, var(--dark), var(--blue));
+      color: var(--white);
+    }
+
+    .header-text {
+      flex: 1;
+      padding-right: 30px;
+    }
+
+    .header-text h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+    }
+
+    .header-text p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    .header-lottie {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .header-lottie dotlottie-wc {
+      width: 100%;
+      height: auto;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 60px 5%;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px var(--shadow);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .card dotlottie-wc {
+      width: 240px;
+      height: 240px;
+      margin: 0 auto 10px;
+    }
+
+    .audio-control {
+      margin-top: 10px;
+    }
+
+    .play-btn {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .play-btn:hover {
+      background: #2196f3;
+    }
+
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .header-text {
+        padding-right: 0;
+      }
+
+      .header-text h1 {
+        font-size: 2rem;
+      }
+
+      .chapter-grid {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-text">
+    <h1>Andy’s Journey: From Pollution to Action</h1>
+    <p>Follow Andy's emotional story from working in a polluting factory to becoming a voice for environmental change.</p>
+  </div>
+  <div class="header-lottie">
+    <dotlottie-wc src="https://lottie.host/44ccb756-aade-4935-9d71-6090ac482a07/gM6wqTCYl1.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+  </div>
+</header>
+
+<section class="chapter-grid">
+  <div class="card" data-aos="fade-up">
+    <h2>Chapter 1: A Job by the River</h2>
+    <p>Andy works at a riverside factory. Wastewater flows. He says nothing.</p>
+    <dotlottie-wc src="https://lottie.host/c6caa87d-997b-4efe-b20a-313afe2d1f87/8vIgyO32rg.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+    <div class="audio-control">
+      <button class="play-btn" onclick="toggleAudio('audio1')">🔊 Play</button>
+      <audio id="audio1" src="audios/1.mp3"></audio>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Chapter 2: The Hidden Flow</h2>
+    <p>Toxins drift beneath the surface. Fish vanish. Silence grows. No one sees.</p>
+    <dotlottie-wc src="https://lottie.host/a6f9ba18-c5de-4f1e-94f5-52c43cf844cf/pC0UlBv0DQ.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+    <div class="audio-control">
+      <button class="play-btn" onclick="toggleAudio('audio2')">🔊 Play</button>
+      <audio id="audio2" src="audios/2.mp3"></audio>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Chapter 3: A Bitter Glass</h2>
+    <p>Andy falls sick. The water poisoned him — like the fish before him.</p>
+    <dotlottie-wc src="https://lottie.host/3541b307-07d2-4b86-8b2f-a72d9f781ba8/cK3fHnE8xD.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+    <div class="audio-control">
+      <button class="play-btn" onclick="toggleAudio('audio3')">🔊 Play</button>
+      <audio id="audio3" src="audios/3.mp3"></audio>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Chapter 4: Eyes Wide Open</h2>
+    <p>Andy quits the job. Now he spreads the truth about pollution.</p>
+    <dotlottie-wc src="https://lottie.host/f9a80fd6-61d3-437a-b312-754b448cfeb9/CBEXy5128Y.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+    <div class="audio-control">
+      <button class="play-btn" onclick="toggleAudio('audio4')">🔊 Play</button>
+      <audio id="audio4" src="audios/4.mp3"></audio>
+    </div>
+  </div>
+
+  <div class="card" data-aos="fade-up">
+    <h2>Chapter 5: From Pollution to Hope</h2>
+    <p>Andy leads a cleanup effort. The river breathes again.</p>
+    <dotlottie-wc src="https://lottie.host/44ccb756-aade-4935-9d71-6090ac482a07/gM6wqTCYl1.lottie" speed="1" mode="normal" loop autoplay></dotlottie-wc>
+    <div class="audio-control">
+      <button class="play-btn" onclick="toggleAudio('audio5')">🔊 Play</button>
+      <audio id="audio5" src="audios/5.mp3"></audio>
+    </div>
+  </div>
+</section>
+
+<footer>
+    <!-- Donation & Game Section -->
+<section style="padding: 60px 5%; background-color: #e3f2fd; text-align: center;">
+    <h2 style="font-size: 2rem; color: #0D47A1;">💙 Support Clean Water</h2>
+    <p style="max-width: 700px; margin: 20px auto; font-size: 1.1rem;">
+      Help Andy's mission by donating to water-cleaning organizations. Your support makes rivers breathe again.
+    </p>
+    <a href="https://www.buymeacoffee.com/yourusername" target="_blank" style="display:inline-block; padding: 10px 20px; background:#1976d2; color:white; text-decoration:none; border-radius:10px; font-weight:bold; margin-bottom:40px;">☕ Donate Now</a>
+  
+    <h2 style="font-size: 1.8rem; margin-top: 60px; color: #0D47A1;">🎮 Play & Win</h2>
+    <p style="max-width: 700px; margin: 20px auto; font-size: 1rem;">
+      Play the <strong>Water Guardian Game</strong> below. If you score over <strong>100</strong>, you’ll unlock a voucher for eco-friendly shopping!
+    </p>
+  
+    <!-- Game iframe -->
+    <iframe src="game.html" width="370" height="600" style="border:none; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.2); margin-top:20px;"></iframe>
+  
+    <p style="margin-top: 20px; font-size: 0.9rem; color: #555;">
+      💡 After playing, take a screenshot of your score and send it to <strong>eco-vouchers@example.com</strong> to claim your reward!
+    </p>
+  </section>
+  
+  &copy; 2025 WaterCare Story. All rights reserved.
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once: true });
+
+  function toggleAudio(id) {
+    const audio = document.getElementById(id);
+    document.querySelectorAll('audio').forEach(a => { if (a !== audio) a.pause(); });
+    audio.paused ? audio.play() : audio.pause();
+  }
+</script>
+</body>
+</html>
