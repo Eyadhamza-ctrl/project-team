@@ -1,258 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Water Guardian Game</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(to bottom, #a2d4f9, #0066cc);
-  min-height: 100vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1rem;
-}
-
-    .topbar {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 0.7rem 1rem;
-      margin-bottom: 1rem;
-      color: #fff;
-      font-weight: bold;
-      backdrop-filter: blur(6px);
-    }
-    canvas {
-      background: #81d4fa;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    }
-    .buttons {
-      margin-top: 1rem;
-      display: flex;
-      gap: 1rem;
-    }
-    button {
-      background: #ffffff33;
-      color: white;
-      border: none;
-      border-radius: 14px;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      transition: 0.2s ease;
-    }
-    button:hover {
-      background: #ffffff55;
-      transform: scale(1.05);
-    }
-    .instructions {
-      margin-top: 1rem;
-      color: #ffffffee;
-      text-align: center;
-      max-width: 500px;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    @media (max-width: 600px) {
-      .topbar {
-        font-size: 0.9rem;
-      }
-      button {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Water Guardian Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(to bottom, #a2d4f9, #0066cc);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+  }
+  .topbar {
+    width: 100%; max-width: 500px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.2);
+    border-radius: 16px; padding: 0.7rem 1rem;
+    color: #fff; font-weight: bold;
+    backdrop-filter: blur(6px); margin-bottom: 1rem;
+  }
+  canvas {
+    background: #81d4fa;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    width: 100%; height: auto;
+    max-width: 360px;
+  }
+  .buttons, .mobile-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+  }
+  button {
+    background: #ffffff33;
+    color: white; border: none;
+    border-radius: 14px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: 0.2s ease;
+  }
+  button:hover {
+    background: #ffffff55;
+    transform: scale(1.05);
+  }
+  .instructions {
+    margin-top: 1rem;
+    color: #ffffffee;
+    text-align: center;
+    max-width: 500px;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .mobile-controls button {
+    font-size: 2rem;
+    flex: 1;
+    padding: 0.8rem;
+  }
+</style>
 </head>
 <body>
-  <div class="topbar">
-    <div id="score">Score: 0</div>
-    <div id="lives">Lives: 3</div>
-  </div>
-  <canvas id="gameCanvas" width="360" height="540"></canvas>
-  <div class="buttons">
-    <button id="startBtn">▶ Start</button>
-    <button id="resetBtn">🔄 Reset</button>
-  </div>
-  <div class="instructions">
-    🌊 <strong>Water Guardian</strong><br>
-    Catch <span style="color:#4caf50;">clean water drops</span> 💧, avoid <span style="color:#f44336;">polluted ones</span> 🛢️.<br>
-    Move the submarine using <strong>←</strong> and <strong>→</strong> keys.
-  </div>
 
-  
+<div class="topbar">
+  <div id="score">Score: 0</div>
+  <div id="lives">Lives: 3</div>
+</div>
 
-  <!-- Sounds -->
-  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_bdc0a6e164.mp3" loop></audio>
-  <audio id="pickupSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_9cb3ecf4e3.mp3"></audio>
-  <audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_85c5d4d98e.mp3"></audio>
+<canvas id="gameCanvas" width="360" height="540"></canvas>
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const startBtn = document.getElementById("startBtn");
-    const resetBtn = document.getElementById("resetBtn");
+<div class="buttons">
+  <button id="startBtn">▶ Start</button>
+  <button id="resetBtn">🔄 Reset</button>
+</div>
 
-    const bgMusic = document.getElementById("bgMusic");
-    const pickupSound = document.getElementById("pickupSound");
-    const hitSound = document.getElementById("hitSound");
+<div class="mobile-controls">
+  <button id="leftBtn">⬅️</button>
+  <button id="rightBtn">➡️</button>
+</div>
 
-    let drops = [];
-    let frame = 0;
-    let score = 0;
-    let lives = 3;
-    let running = false;
+<div class="instructions">
+  🌊 <strong>Water Guardian</strong><br>
+  Catch <span style="color:#4caf50;">clean drops 💧</span>, dodge <span style="color:#f44336;">yucky oil 🛢️</span>!<br>
+  Use <strong>← →</strong> keys or touch the buttons.
+</div>
 
-    const player = {
-      x: canvas.width / 2 - 25,
-      y: canvas.height - 70,
-      w: 50,
-      h: 30,
-      speed: 7,
-      moveLeft: false,
-      moveRight: false,
-    };
+<!-- Sounds -->
+<audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_bdc0a6e164.mp3" loop></audio>
+<audio id="pickupSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_9cb3ecf4e3.mp3"></audio>
+<audio id="hitSound" src="https://cdn.pixabay.com/download/audio/2022/03/01/audio_85c5d4d98e.mp3"></audio>
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") player.moveLeft = true;
-      if (e.key === "ArrowRight") player.moveRight = true;
-    });
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "ArrowLeft") player.moveLeft = false;
-      if (e.key === "ArrowRight") player.moveRight = false;
-    });
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+const leftBtn = document.getElementById("leftBtn");
+const rightBtn = document.getElementById("rightBtn");
 
-    startBtn.addEventListener("click", () => {
-      if (!running) {
-        running = true;
-        bgMusic.play();
-        gameLoop();
+const bgMusic = document.getElementById("bgMusic");
+const pickupSound = document.getElementById("pickupSound");
+const hitSound = document.getElementById("hitSound");
+
+let drops = [], frame = 0, score = 0, lives = 3, running = false;
+
+const player = {
+  x: canvas.width / 2 - 25,
+  y: canvas.height - 70,
+  w: 50, h: 30,
+  speed: 7,
+  moveLeft: false, moveRight: false
+};
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") player.moveLeft = true;
+  if (e.key === "ArrowRight") player.moveRight = true;
+});
+document.addEventListener("keyup", (e) => {
+  if (e.key === "ArrowLeft") player.moveLeft = false;
+  if (e.key === "ArrowRight") player.moveRight = false;
+});
+
+leftBtn.addEventListener("touchstart", () => player.moveLeft = true);
+leftBtn.addEventListener("touchend", () => player.moveLeft = false);
+rightBtn.addEventListener("touchstart", () => player.moveRight = true);
+rightBtn.addEventListener("touchend", () => player.moveRight = false);
+
+startBtn.addEventListener("click", () => {
+  if (!running) {
+    running = true;
+    bgMusic.play();
+    gameLoop();
+  }
+});
+
+resetBtn.addEventListener("click", resetGame);
+
+function resetGame() {
+  drops = []; frame = 0; score = 0; lives = 3;
+  running = false; bgMusic.pause(); bgMusic.currentTime = 0;
+  updateUI();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPlayer();
+}
+
+function randomDrop() {
+  const isClean = Math.random() < 0.6;
+  drops.push({
+    x: Math.random() * (canvas.width - 30),
+    y: -30, w: 30, h: 30,
+    speed: 2 + Math.random() * 3 + score * 0.03,
+    clean: isClean
+  });
+}
+
+function update() {
+  frame++;
+  if (frame % 35 === 0) randomDrop();
+
+  if (player.moveLeft) player.x = Math.max(0, player.x - player.speed);
+  if (player.moveRight) player.x = Math.min(canvas.width - player.w, player.x + player.speed);
+
+  for (let i = drops.length - 1; i >= 0; i--) {
+    const d = drops[i];
+    d.y += d.speed;
+
+    if (
+      d.x < player.x + player.w &&
+      d.x + d.w > player.x &&
+      d.y < player.y + player.h &&
+      d.y + d.h > player.y
+    ) {
+      if (d.clean) {
+        score += 10; pickupSound.play();
+      } else {
+        lives--; hitSound.play();
       }
-    });
-
-    resetBtn.addEventListener("click", resetGame);
-
-    function resetGame() {
-      drops = [];
-      frame = 0;
-      score = 0;
-      lives = 3;
-      running = false;
-      bgMusic.pause();
-      bgMusic.currentTime = 0;
+      drops.splice(i,1);
+      if (lives <= 0) {
+        running = false; bgMusic.pause();
+        setTimeout(() => alert(`😢 Game Over!\nYour score: ${score}`), 100);
+      }
       updateUI();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPlayer();
+    } else if (d.y > canvas.height) {
+      drops.splice(i,1);
     }
+  }
+}
 
-    function randomDrop() {
-      const isClean = Math.random() < 0.6;
-      drops.push({
-        x: Math.random() * (canvas.width - 30),
-        y: -30,
-        w: 30,
-        h: 30,
-        speed: 2 + Math.random() * 2 + score * 0.05,
-        clean: isClean,
-      });
-    }
+function drawPlayer() {
+  ctx.font = "26px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("🚤", player.x + player.w / 2, player.y + player.h);
+}
 
-    function update() {
-      frame++;
-      if (frame % 40 === 0) randomDrop();
+function drawDrops() {
+  ctx.font = "24px Arial";
+  drops.forEach(d => {
+    ctx.fillText(d.clean ? "💧" : "🛢️", d.x + d.w/2, d.y + d.h/2);
+  });
+}
 
-      if (player.moveLeft) player.x = Math.max(0, player.x - player.speed);
-      if (player.moveRight) player.x = Math.min(canvas.width - player.w, player.x + player.speed);
+function draw() {
+  ctx.fillStyle = "#81d4fa";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawPlayer();
+  drawDrops();
+}
 
-      for (let i = drops.length - 1; i >= 0; i--) {
-        const d = drops[i];
-        d.y += d.speed;
+function gameLoop() {
+  if (!running) return;
+  update();
+  draw();
+  requestAnimationFrame(gameLoop);
+}
 
-        if (
-          d.x < player.x + player.w &&
-          d.x + d.w > player.x &&
-          d.y < player.y + player.h &&
-          d.y + d.h > player.y
-        ) {
-          if (d.clean) {
-            score += 10;
-            pickupSound.play();
-          } else {
-            lives--;
-            hitSound.play();
-          }
-          drops.splice(i, 1);
-          if (lives <= 0) {
-            running = false;
-            bgMusic.pause();
-            setTimeout(() => {
-              alert(`Game Over! Your score: ${score}.`);
-            }, 100);
-          }
-          updateUI();
-          continue;
-        }
+function updateUI() {
+  document.getElementById("score").textContent = `Score: ${score}`;
+  document.getElementById("lives").textContent = `Lives: ${lives}`;
+}
 
-        if (d.y > canvas.height) {
-          drops.splice(i, 1);
-        }
-      }
-    }
-
-    function drawPlayer() {
-      ctx.fillStyle = "#ffeb3b";
-      ctx.fillRect(player.x, player.y, player.w, player.h);
-      ctx.fillStyle = "#f57c00";
-      ctx.fillRect(player.x + 18, player.y - 10, 14, 10);
-    }
-
-    function drawDrops() {
-      drops.forEach((d) => {
-        ctx.fillStyle = d.clean ? "#4caf50" : "#f44336";
-        ctx.beginPath();
-        ctx.arc(d.x + d.w / 2, d.y + d.h / 2, d.w / 2, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
-
-    function draw() {
-      ctx.fillStyle = "#81d4fa";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawPlayer();
-      drawDrops();
-    }
-
-    function gameLoop() {
-      if (!running) return;
-      update();
-      draw();
-      requestAnimationFrame(gameLoop);
-    }
-
-    function updateUI() {
-      document.getElementById("score").textContent = `Score: ${score}`;
-      document.getElementById("lives").textContent = `Lives: ${lives}`;
-    }
-
-    resetGame();
-  </script>
-
-  
+resetGame();
+</script>
 </body>
 </html>
