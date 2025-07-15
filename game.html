@@ -17,20 +17,12 @@
     justify-content: flex-start;
     padding: 1rem;
   }
-  .topbar {
-    width: 100%; max-width: 500px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(255,255,255,0.2);
-    border-radius: 16px; padding: 0.7rem 1rem;
-    color: #fff; font-weight: bold;
-    backdrop-filter: blur(6px); margin-bottom: 1rem;
-  }
   canvas {
     background: #81d4fa;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     width: 100%; height: auto;
-    max-width: 360px;
+    max-width: 400px;
   }
   .buttons, .mobile-controls {
     margin-top: 1rem;
@@ -67,11 +59,6 @@
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div id="score">Score: 0</div>
-  <div id="lives">Lives: 3</div>
-</div>
 
 <canvas id="gameCanvas" width="360" height="540"></canvas>
 
@@ -118,6 +105,7 @@ const player = {
   moveLeft: false, moveRight: false
 };
 
+// Keyboard controls
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") player.moveLeft = true;
   if (e.key === "ArrowRight") player.moveRight = true;
@@ -127,6 +115,7 @@ document.addEventListener("keyup", (e) => {
   if (e.key === "ArrowRight") player.moveRight = false;
 });
 
+// Mobile controls
 leftBtn.addEventListener("touchstart", () => player.moveLeft = true);
 leftBtn.addEventListener("touchend", () => player.moveLeft = false);
 rightBtn.addEventListener("touchstart", () => player.moveRight = true);
@@ -139,15 +128,13 @@ startBtn.addEventListener("click", () => {
     gameLoop();
   }
 });
-
 resetBtn.addEventListener("click", resetGame);
 
 function resetGame() {
   drops = []; frame = 0; score = 0; lives = 3;
   running = false; bgMusic.pause(); bgMusic.currentTime = 0;
-  updateUI();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawPlayer();
+  draw();
 }
 
 function randomDrop() {
@@ -187,12 +174,26 @@ function update() {
         running = false; bgMusic.pause();
         setTimeout(() => alert(`😢 Game Over!\nYour score: ${score}`), 100);
       }
-      updateUI();
     } else if (d.y > canvas.height) {
       drops.splice(i,1);
     }
   }
 }
+
+function drawHUD() {
+  ctx.fillStyle = "#fff";
+  ctx.font = "20px Nunito";
+  ctx.textBaseline = "top";
+
+  // Score on left
+  ctx.textAlign = "left";
+  ctx.fillText(`Score: ${score}`, 15, 10);
+
+  // Hearts on right
+  ctx.textAlign = "right";
+  ctx.fillText("❤️".repeat(lives), canvas.width - 15, 10);
+}
+
 
 function drawPlayer() {
   ctx.font = "26px Arial";
@@ -210,6 +211,7 @@ function drawDrops() {
 function draw() {
   ctx.fillStyle = "#81d4fa";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawHUD();
   drawPlayer();
   drawDrops();
 }
@@ -219,11 +221,6 @@ function gameLoop() {
   update();
   draw();
   requestAnimationFrame(gameLoop);
-}
-
-function updateUI() {
-  document.getElementById("score").textContent = `Score: ${score}`;
-  document.getElementById("lives").textContent = `Lives: ${lives}`;
 }
 
 resetGame();
